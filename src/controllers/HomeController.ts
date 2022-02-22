@@ -4,11 +4,19 @@ import { generatePdf } from 'html-pdf-node';
 
 export const HomeController = {
   index(_req: Request, res: Response): void {
-    res.render('home');
+    const data = [
+      { label: 'A', value: 5 },
+      { label: 'B', value: 4 },
+      { label: 'C', value: 2 },
+      { label: 'D', value: 10 },
+    ];
+    res.render('home', {
+      data: JSON.stringify(data),
+    });
   },
 
   pdf(req: Request, res: Response): void {
-    const route = req.query['route'] || ''
+    const route = req.query['route'] || '';
     const file = {
       url: `http://localhost:1337/${route}`,
     };

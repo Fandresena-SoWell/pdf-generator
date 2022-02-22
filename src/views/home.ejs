@@ -5,6 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Homepage</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <style>
+      .bar {
+        fill: steelblue;
+      }
+    </style>
   </head>
   <body>
     <h2>Title</h2>
@@ -12,5 +18,65 @@
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis, fuga obcaecati? Velit quibusdam perferendis
       laborum dolor. Soluta unde.
     </p>
+    <svg width="600" height="500"></svg>
   </body>
+  <script>
+    const data = JSON.parse('<%- data %>');
+    var svg = d3.select('svg'),
+      margin = 200,
+      width = svg.attr('width') - margin,
+      height = svg.attr('height') - margin;
+
+    var xScale = d3.scaleBand().range([0, width]).padding(0.4),
+      yScale = d3.scaleLinear().range([height, 0]);
+
+    var g = svg.append('g').attr('transform', 'translate(' + 100 + ',' + 100 + ')');
+
+    xScale.domain(
+      data.map(function (d) {
+        return d.label;
+      }),
+    );
+    yScale.domain([
+      0,
+      d3.max(data, function (d) {
+        return d.value;
+      }),
+    ]);
+
+    g.append('g')
+      .attr('transform', 'translate(0,' + height + ')')
+      .call(d3.axisBottom(xScale));
+
+    g.append('g')
+      .call(
+        d3
+          .axisLeft(yScale)
+          .tickFormat(function (d) {
+            return d;
+          })
+          .ticks(10),
+      )
+      .append('text')
+      .attr('y', 6)
+      .attr('dy', '0.71em')
+      .attr('text-anchor', 'end')
+      .text('value');
+
+    g.selectAll('.bar')
+      .data(data)
+      .enter()
+      .append('rect')
+      .attr('class', 'bar')
+      .attr('x', function (d) {
+        return xScale(d.label);
+      })
+      .attr('y', function (d) {
+        return yScale(d.value);
+      })
+      .attr('width', xScale.bandwidth())
+      .attr('height', function (d) {
+        return height - yScale(d.value);
+      });
+  </script>
 </html>
