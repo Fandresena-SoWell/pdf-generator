@@ -1,8 +1,10 @@
 import { HomeController } from './controllers/HomeController';
-import { Router } from 'express'
+import { Router } from 'express';
 
-const router = Router()
+const router = Router();
 
-router.get('/', HomeController.index)
+router.get('/', HomeController.index);
 
-export default router
+router.get('/pdf', HomeController.pdf);
+
+export default router;
