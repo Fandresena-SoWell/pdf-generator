@@ -31,4 +31,8 @@ export const HomeController = {
       return res.send(buffer);
     });
   },
+
+  livretEntretien(_req: Request, res: Response): void {
+    res.render('livret-entretien');
+  }
 };
