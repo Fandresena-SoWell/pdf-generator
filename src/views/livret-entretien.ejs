@@ -1,78 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Livret d'entretien</title>
-    <link href="http://fonts.cdnfonts.com/css/roboto" rel="stylesheet" />
-    <style>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Livret d'entretien</title>
+  <link href="http://fonts.cdnfonts.com/css/roboto" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      width: 29.3cm;
+    }
+    
+    article {
+      padding: 12px 48px;
+    }
+
+    @media print {
       body {
-        width: 29.3cm;
-        padding: 12px 48px;
+        height: 20.3cm;
       }
-      @media print {
-        body {
-          height: 20.3cm;
-        }
-      }
-      header > .row {
-        height: 100px;
-      }
-      header > .row > * {
-        height: 100%;
-      }
-      .box {
-        width: 100%;
-        text-align: center;
-      }
+    }
 
-      img.box {
-        width: auto;
-        height: 100%;
-      }
+    header>.row {
+      height: 100px;
+    }
 
-      img.box#logo-sowell {
-        float: left;
-      }
-      img.box#logo-client {
-        float: right;
-      }
+    header>.row>* {
+      height: 100%;
+    }
 
-      h1 {
-        font-size: 16px;
-        font-family: 'Roboto', sans-serif;
-        color: gray;
-      }
-      div.date {
-        font-family: 'Roboto Medium', sans-serif;
-        font-size: 12px;
-        color: gray;
-      }
+    .box {
+      width: 100%;
+      text-align: center;
+    }
 
-      canvas {
-        height: 300px !important;
-      }
-    </style>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css"
-      integrity="sha512-YHuwZabI2zi0k7c9vtg8dK/63QB0hLvD4thw44dFo/TfBFVVQOqEG9WpviaEpbyvgOIYLXF1n7xDUfU3GDs0sw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"
-      integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-  </head>
-  <body>
+    img.box {
+      width: auto;
+      height: 100%;
+    }
+
+    img.box#logo-sowell {
+      float: left;
+    }
+
+    img.box#logo-client {
+      float: right;
+    }
+
+    h1 {
+      font-size: 16px;
+      font-family: 'Roboto', sans-serif;
+      color: gray;
+    }
+
+    div.date {
+      font-family: 'Roboto Medium', sans-serif;
+      font-size: 12px;
+      color: gray;
+    }
+
+    canvas {
+      height: 300px !important;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css"
+    integrity="sha512-YHuwZabI2zi0k7c9vtg8dK/63QB0hLvD4thw44dFo/TfBFVVQOqEG9WpviaEpbyvgOIYLXF1n7xDUfU3GDs0sw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@1" crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+  <article>
     <header>
       <div class="row">
         <div class="col-xs-2">
@@ -81,7 +83,7 @@
         <div class="col-xs">
           <div class="box">
             <h1>Analyse "Livrets d'entretien"</h1>
-            <h1>ERIGERE</h1>
+            <h1><%= data.company.name %></h1>
             <div class="date">Octobre 2020 - Octobre 2021</div>
           </div>
         </div>
@@ -105,236 +107,180 @@
         </div>
       </div>
     </main>
-  </body>
-  <script defer>
-    function initialize(selector) {
-      const chart = document.getElementById(selector);
-      const parent = chart.parentElement;
-      chart.width = parent.clientWidth;
-      chart.height = parent.clientHeight;
-      return chart;
-    }
-    const globalCanvas = initialize('canvas-1');
-    const categoriesCanvas = initialize('canvas-2');
-    const agenciesCanvas = initialize('canvas-3');
+  </article>
+  <% for(var i=0; i < data.agencies.length; i++) {%>
+  <div style="page-break-before: always;"></div>
+  <article>
+    <header>
+      <div class="row">
+        <div class="col-xs-2">
+          <img class="box" id="logo-sowell" src="http://fakeimg.pl/200x200" alt="logo-client" />
+        </div>
+        <div class="col-xs">
+          <div class="box">
+            <h1>Analyse "Livrets d'entretien"</h1>
+            <h1><%= data.company.name %> - <%= data.agencies[i].name %> </h1>
+            <div class="date">Octobre 2020 - Octobre 2021</div>
+          </div>
+        </div>
+        <div class="col-xs-2">
+          <img class="box" id="logo-client" src="http://fakeimg.pl/200x200" alt="logo-client" />
+        </div>
+      </div>
+    </header>
 
-    const COLORS = [
-      {
-        border: '#009c46',
-        background: '#00b050',
-      },
-      {
-        border: '#c09000',
-        background: '#ffc000',
-      },
-      {
-        border: '#a20000',
-        background: '#c00000',
-      },
-    ];
+    <main>
+      <div class="row">
+        <div class="col-xs">
+          <canvas class="box" id="<%= i %>_canvas-1"></canvas>
+        </div>
+        <div class="col-xs">
+          <canvas class="box" id="<%= i %>_canvas-2"></canvas>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs">
+          <canvas class="box" id="<%= i %>_canvas-3"></canvas>
+        </div>
+      </div>
+    </main>
+  </article>
+  <% } %>
+</body>
+<script defer>
+  'use strict';
+  (function (setLineDash) {
+    CanvasRenderingContext2D.prototype.setLineDash = function () {
+      if (!arguments[0].length) {
+        arguments[0] = [1, 0];
+      }
+      // Now, call the original method
+      return setLineDash.apply(this, arguments);
+    };
+  })(CanvasRenderingContext2D.prototype.setLineDash);
+  Function.prototype.bind = Function.prototype.bind || function (thisp) {
+    var fn = this;
+    return function () {
+      return fn.apply(thisp, arguments);
+    };
+  };
 
-    function generateChart(canvas, title, data) {
-      return new Chart(canvas, {
-        type: 'bar',
-        plugins: [ChartDataLabels],
-        data: {
-          labels: data.map((item) => item.label),
-          datasets: data[0].values.map((item, i) => {
-            return {
-              label: item.label,
-              data: data.map((item) => {
-                return item.values[i].value;
-              }),
-              borderWidth: 1,
-              backgroundColor: [COLORS[i].background],
-              borderColor: [COLORS[i].border],
-              maxBarThickness: 100,
-            };
+  function initialize(selector) {
+    const chart = document.getElementById(selector);
+    const parent = chart.parentElement;
+    chart.width = parent.clientWidth;
+    chart.height = parent.clientHeight;
+    return chart.getContext('2d');
+  }
+
+  let data = '<%- JSON.stringify(data) %>'
+  data = JSON.parse(data)
+
+  
+  const COLORS = [
+    {
+      border: '#009c46',
+      background: '#00b050',
+    },
+    {
+      border: '#c09000',
+      background: '#ffc000',
+    },
+    {
+      border: '#a20000',
+      background: '#c00000',
+    },
+  ];
+
+  function generateChart(canvas, title, data, options) {
+    const dataForChart = {
+      labels: data.map((item) => item.label),
+      datasets: data[0].values.map((item, i) => {
+        return {
+          label: item.label,
+          data: data.map((item) => {
+            return item.values[i].value;
           }),
-        },
-        options: {
-          animation: { duration: 0 },
-          plugins: {
-            datalabels: {
-              color: function (context) {
-                const index = context.datasetIndex;
-                return index > 0 ? 'blue' : 'white';
-              },
-              display: function (context) {
-                const index = context.dataIndex;
-                const value = context.dataset.data[index];
-                return value > 15 ? true : 'auto'
-              },
-              align: function (context) {
-                if (context.dataset.data.length > 10) return 'center'
-                const index = context.datasetIndex;
-                return index % 2 ? 'left' : 'right';
-              }
-            },
-            title: {
-              display: true,
-              text: title,
-            },
-          },
-          scales: {
-            x: {
-              stacked: true,
-            },
-            y: {
-              stacked: true,
-              beginAtZero: true,
-            },
-          },
-        },
-      });
+          borderWidth: 1,
+          backgroundColor: COLORS[i].background,
+          borderColor: COLORS[i].border
+        };
+      }),
     }
+    
+    return new Chart(canvas, {
+      type: 'bar',
+      plugins: [ChartDataLabels],
+      data: dataForChart,
+      options: {
+        title: {
+          display: true,
+          text: title,
+        },
+        legend: options?.legend || {},
+        animation: { duration: 0 },
+        responsive: false,
+        devicePixelRatio: 1,
+        plugins: {
+          datalabels: {
+            color: function (context) {
+              const index = context.datasetIndex;
+              return index > 0 ? 'blue' : 'white';
+            },
+            display: function (context) {
+              const index = context.dataIndex;
+              const value = context.dataset.data[index];
+              return value > 15 ? true : 'auto'
+            },
+            align: function (context) {
+              if (context.dataset.data.length > 10) return 'center'
+              const index = context.datasetIndex;
+              return index % 2 ? 'left' : 'right';
+            }
+          },
+        },
+        scales: {
+          xAxes: [{
+            stacked: true,
+            maxBarThickness: 100,
+          }],
+          yAxes: [{
+            stacked: true
+          }]
+        },
+      },
+    });
+  }
+  
+  const globalCanvas = initialize('canvas-1');
+  const categoriesCanvas = initialize('canvas-2');
+  const agenciesCanvas = initialize('canvas-3');
 
-    const globalData = [
-      {
-        label: 'Nombre de Etat',
-        values: [
-          {
-            label: 'Réalisé',
-            value: 2772,
-          },
-          {
-            label: 'Retard < 2mois',
-            value: 488,
-          },
-          {
-            label: 'Retard > 2mois',
-            value: 586,
-          },
-        ],
-      },
-    ];
-    const globalChart = generateChart(globalCanvas, 'AVANCEMENT GLOBAL', globalData);
+  const globalData = data.company.global;
+  const globalChart = generateChart(globalCanvas, 'AVANCEMENT GLOBAL', globalData, { legend: { display: false} });
+  
+  const categoriesData = data.company.categories;
+  const categoriesChart = generateChart(categoriesCanvas, 'AVANCEMENT PAR CATEGORIE', categoriesData, { legend: { display: false} });
+  
+  const agenciesData = data.company.agencies;
+  const agenciesChart = generateChart(agenciesCanvas, 'AVANCEMENT PAR AGENCE', agenciesData);
 
-    const categoriesData = [
-      {
-        label: 'Contrôle sécurité',
-        values: [
-          {
-            label: 'Réalisé',
-            value: 1572,
-          },
-          {
-            label: 'Retard < 2mois',
-            value: 240,
-          },
-          {
-            label: 'Retard > 2mois',
-            value: 446,
-          },
-        ],
-      },
-      {
-        label: 'Autres',
-        values: [
-          {
-            label: 'Réalisé',
-            value: 1200,
-          },
-          {
-            label: 'Retard < 2mois',
-            value: 248,
-          },
-          {
-            label: 'Retard > 2mois',
-            value: 100,
-          },
-        ],
-      },
-    ];
-    const categoriesChart = generateChart(categoriesCanvas, 'AVANCEMENT PAR CATEGORIE', categoriesData);
+  <% for(var i=0; i < data.agencies.length; i++) {%>
+  const globalCanvas_<%= i %> = initialize('<%= i %>_canvas-1');
+  const categoriesCanvas_<%= i %> = initialize('<%= i %>_canvas-2');
+  const usersCanvas_<%= i %> = initialize('<%= i %>_canvas-3');
 
-    const agenciesData = [
-      {
-        label: 'Agence Nord-Est',
-        values: [
-          {
-            label: 'Réalisé',
-            value: 822,
-          },
-          {
-            label: 'Retard < 2mois',
-            value: 256,
-          },
-          {
-            label: 'Retard > 2mois',
-            value: 36,
-          },
-        ],
-      },
-      {
-        label: 'Agence Nord-Ouest',
-        values: [
-          {
-            label: 'Réalisé',
-            value: 1074,
-          },
-          {
-            label: 'Retard < 2mois',
-            value: 187,
-          },
-          {
-            label: 'Retard > 2mois',
-            value: 261,
-          },
-        ],
-      },
-      {
-        label: 'Agence Pontoise',
-        values: [
-          {
-            label: 'Réalisé',
-            value: 269,
-          },
-          {
-            label: 'Retard < 2mois',
-            value: 9,
-          },
-          {
-            label: 'Retard > 2mois',
-            value: 155,
-          },
-        ],
-      },
-      {
-        label: 'Agence Sud-Est',
-        values: [
-          {
-            label: 'Réalisé',
-            value: 196,
-          },
-          {
-            label: 'Retard < 2mois',
-            value: 3,
-          },
-          {
-            label: 'Retard > 2mois',
-            value: 42,
-          },
-        ],
-      },
-      {
-        label: 'Agence Sud-Ouest',
-        values: [
-          {
-            label: 'Réalisé',
-            value: 411,
-          },
-          {
-            label: 'Retard < 2mois',
-            value: 33,
-          },
-          {
-            label: 'Retard > 2mois',
-            value: 52,
-          },
-        ],
-      },
-    ];
-    const agenciesChart = generateChart(agenciesCanvas, 'AVANCEMENT PAR AGENCE', agenciesData);
-  </script>
+  const globalData_<%= i %> = data.agencies[<%= i %>].global;
+  const globalChart_<%= i %> = generateChart(globalCanvas_<%= i %>, 'AVANCEMENT GLOBAL', globalData_<%= i %>, { legend: { display: false} });
+  
+  const categoriesData_<%= i %> = data.agencies[<%= i %>].categories;
+  const categoriesChart_<%= i %> = generateChart(categoriesCanvas_<%= i %>, 'AVANCEMENT PAR CATEGORIE', categoriesData_<%= i %>, { legend: { display: false} });
+  
+  const usersData_<%= i %> = data.agencies[<%= i %>].users;
+  const usersChart_<%= i %> = generateChart(usersCanvas_<%= i %>, 'AVANCEMENT PAR UTILISATEUR', usersData_<%= i %>);
+
+  <% } %>
+
+</script>
+
 </html>
